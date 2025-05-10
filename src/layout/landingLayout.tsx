@@ -1,7 +1,8 @@
-import React from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import React from "react";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Outlet } from "react-router-dom";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 const items = Array.from({ length: 15 }).map((_, index) => ({
   key: index + 1,
@@ -15,18 +16,18 @@ const landingLayout: React.FC = () => {
 
   return (
     <Layout>
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
+      <Header style={{ display: "flex", alignItems: "center" }}>
         <div className="demo-logo" />
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={['2']}
+          defaultSelectedKeys={["2"]}
           items={items}
           style={{ flex: 1, minWidth: 0 }}
         />
       </Header>
-      <Content style={{ padding: '0 48px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
+      <Content style={{ padding: "0 48px" }}>
+        <Breadcrumb style={{ margin: "16px 0" }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
           <Breadcrumb.Item>List</Breadcrumb.Item>
           <Breadcrumb.Item>App</Breadcrumb.Item>
@@ -39,12 +40,9 @@ const landingLayout: React.FC = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          Content
+          <Outlet />
         </div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>
-        Ant Design ©{new Date().getFullYear()} Created by Ant UED
-      </Footer>
     </Layout>
   );
 };

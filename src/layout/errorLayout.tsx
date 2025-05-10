@@ -1,15 +1,10 @@
-import React from 'react';
-import { Button, Result } from 'antd';
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 const errorLayout: React.FC = () => (
   <div className="flex items-center justify-center min-h-screen">
-    <Result
-      status="404"
-      title="404"
-      subTitle="صفحه ی مورد نظر پیدا نشد"
-      extra={<Button type="primary">بازگشت</Button>}
-    />
+    <Outlet />
   </div>
 );
 
-export default errorLayout
+export default errorLayout;

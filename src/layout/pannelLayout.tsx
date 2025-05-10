@@ -1,46 +1,11 @@
 import React, { useState } from "react";
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu, theme, Drawer, Button } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+
+import { Breadcrumb, Layout, theme, Drawer, Button } from "antd";
+import { Outlet } from "react-router-dom";
+import IndexSideBar from "../pages/pannel/indexSideBar";
 
 const { Content, Sider } = Layout;
-
-type MenuItem = Required<MenuProps>["items"][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[]
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
-
-const items: MenuItem[] = [
-  getItem("Option 1", "1", <PieChartOutlined />),
-  getItem("Option 2", "2", <DesktopOutlined />),
-  getItem("User", "sub1", <UserOutlined />, [
-    getItem("Tom", "3"),
-    getItem("Bill", "4"),
-    getItem("Alex", "5"),
-  ]),
-  getItem("Team", "sub2", <TeamOutlined />, [
-    getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
-  ]),
-  getItem("Files", "9", <FileOutlined />),
-];
 
 const PannelLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -58,12 +23,7 @@ const PannelLayout: React.FC = () => {
         breakpoint="lg"
       >
         <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          defaultSelectedKeys={["1"]}
-          mode="inline"
-          items={items}
-        />
+        <IndexSideBar />
       </Sider>
 
       <Layout>
@@ -75,12 +35,7 @@ const PannelLayout: React.FC = () => {
           className="md:hidden"
           bodyStyle={{ padding: 0 }}
         >
-          <Menu
-            theme="light"
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            items={items}
-          />
+          <IndexSideBar />
         </Drawer>
 
         <Content style={{ margin: "0 16px" }}>
@@ -105,7 +60,7 @@ const PannelLayout: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            Bill is a cat.
+            <Outlet />
           </div>
         </Content>
       </Layout>

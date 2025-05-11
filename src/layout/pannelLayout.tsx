@@ -3,7 +3,7 @@ import { UserOutlined } from "@ant-design/icons";
 
 import { Breadcrumb, Layout, theme, Drawer, Button } from "antd";
 import { Outlet } from "react-router-dom";
-import IndexSideBar from "../pages/pannel/indexSideBar";
+import IndexSideBar from "../pages/pannel/IndexSideBar";
 
 const { Content, Sider } = Layout;
 

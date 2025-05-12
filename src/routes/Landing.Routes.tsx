@@ -8,7 +8,7 @@ export const LandingRoutes = {
   path: "/",
   children: [
     {
-      path: "",
+      path: "landing",
       element: (
         <Suspense fallback={<p>...Loading</p>}>
           <Users />

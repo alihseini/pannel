@@ -1,10 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import useAxios from "../utils/useAxios";
 
-const errorLayout: React.FC = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <Outlet />
-  </div>
-);
+const ErrorLayout: React.FC = () => {
+  useAxios();
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <Outlet />
+    </div>
+  );
+};
 
-export default errorLayout;
+export default ErrorLayout;

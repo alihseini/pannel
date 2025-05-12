@@ -1,6 +1,7 @@
 import React from "react";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Outlet } from "react-router-dom";
+import useAxios from "../utils/useAxios";
 
 const { Header, Content } = Layout;
 
@@ -9,7 +10,8 @@ const items = Array.from({ length: 15 }).map((_, index) => ({
   label: `nav ${index + 1}`,
 }));
 
-const landingLayout: React.FC = () => {
+const LandingLayout: React.FC = () => {
+  useAxios();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -47,4 +49,4 @@ const landingLayout: React.FC = () => {
   );
 };
 
-export default landingLayout;
+export default LandingLayout;

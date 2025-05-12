@@ -41,14 +41,12 @@ const items: MenuItem[] = [
 
 const IndexSideBar: React.FC = () => {
   return (
-    <div>
-      <Menu
-        theme="dark"
-        defaultSelectedKeys={["1"]}
-        mode="inline"
-        items={items}
-      />
-    </div>
+    <Menu
+      theme="dark"
+      defaultSelectedKeys={["1"]}
+      mode="inline"
+      items={items}
+    />
   );
 };
 

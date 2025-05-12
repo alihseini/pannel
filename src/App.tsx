@@ -1,16 +1,13 @@
 import { RouterProvider } from "react-router-dom";
 import router from "./routes/Routes";
-import { useEffect } from "react";
-import api from "./services/api";
+import UserProvider from "./store/context/userContext";
 
 function App() {
-  useEffect(() => {
-    api
-      .get("/v1/User/GetCurrentUser")
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
-  }, []);
-  return <RouterProvider router={router} />;
+  return (
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
+  );
 }
 
 export default App;

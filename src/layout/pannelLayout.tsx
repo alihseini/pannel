@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 
-import { Breadcrumb, Layout, theme, Drawer, Button } from "antd";
+import { Breadcrumb, Layout, theme, Drawer, Button, Avatar } from "antd";
 import { Outlet } from "react-router-dom";
 import IndexSideBar from "../pages/pannel/IndexSideBar";
+import useAxios from "../utils/useAxios";
+import getCurrentUser from "../services/getCurrentUser";
+import User from "../pages/pannel/user";
+import { userData } from "../store/context/userContext";
 
 const { Content, Sider } = Layout;
 
 const PannelLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  useAxios();
+
+  const data = userData();
+  console.log(data.user);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -22,6 +31,7 @@ const PannelLayout: React.FC = () => {
         onCollapse={(value) => setCollapsed(value)}
         breakpoint="lg"
       >
+        <User data={data.user} />
         <div className="demo-logo-vertical" />
         <IndexSideBar />
       </Sider>

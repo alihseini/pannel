@@ -3,7 +3,6 @@ import React from "react";
 import { UserOutlined } from "@ant-design/icons";
 
 const User: React.FC = ({ data }) => {
-  console.log(data);
   return (
     <div>
       <div className="text-center">

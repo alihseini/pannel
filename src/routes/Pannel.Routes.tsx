@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import PannelLayout from "../layout/PannelLayout";
 
-const Users = lazy(() => import("../component/common/Users"));
+const TableSection = lazy(() => import("../pages/pannel/TableSection"));
 
 export const PannelRoute = {
   element: <PannelLayout />,
@@ -11,7 +11,7 @@ export const PannelRoute = {
       index: true,
       element: (
         <Suspense fallback={<p>...Loading</p>}>
-          <Users />
+          <TableSection />
         </Suspense>
       ),
     },

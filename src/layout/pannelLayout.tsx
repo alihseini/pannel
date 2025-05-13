@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 
-import { Breadcrumb, Layout, theme, Drawer, Button, Avatar } from "antd";
+import { Breadcrumb, Layout, theme, Drawer, Button } from "antd";
 import { Outlet } from "react-router-dom";
 import IndexSideBar from "../pages/pannel/IndexSideBar";
 import useAxios from "../utils/useAxios";
-import getCurrentUser from "../services/getCurrentUser";
 import User from "../pages/pannel/user";
 import { userData } from "../store/context/userContext";
 
@@ -21,7 +20,6 @@ const PannelLayout: React.FC = () => {
   useAxios();
 
   const data = userData();
-  console.log(data.user);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>

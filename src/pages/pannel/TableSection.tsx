@@ -23,8 +23,6 @@ const TableSection: React.FC = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  console.log(usersData);
-
   useEffect(() => {
     const currentPageSize = parseInt(searchParams.get("pageSize") || "10");
     const currentPage = parseInt(searchParams.get("pageIndex") || "1");
@@ -54,6 +52,23 @@ const TableSection: React.FC = () => {
     });
   };
 
+  const actions = (row) => [
+    <button
+      key="edit"
+      className="bg-blue-500 text-white px-2 py-1 rounded mx-1"
+      onClick={() => alert(`Edit ${row.userName}`)}
+    >
+      ویرایش
+    </button>,
+    <button
+      key="delete"
+      className="bg-red-500 text-white px-2 py-1 rounded mx-1"
+      onClick={() => alert(`Delete ${row.userName}`)}
+    >
+      حذف
+    </button>,
+  ];
+
   return (
     <>
       <MainTable
@@ -64,6 +79,7 @@ const TableSection: React.FC = () => {
         pageIndex={pageIndex}
         totalPages={totalPages}
         pageChangeHandler={pageChangeHandler}
+        actions={actions}
       />
     </>
   );

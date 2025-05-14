@@ -28,6 +28,7 @@ const PannelLayout: React.FC = () => {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
         breakpoint="lg"
+        theme="light"
       >
         <User data={data.user} />
         <div className="demo-logo-vertical" />

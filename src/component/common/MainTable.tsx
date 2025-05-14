@@ -74,6 +74,7 @@ const MainTable: React.FC = ({
                 <td key={colIndex} className="px-4 py-2">
                   {formatCellValue(head.key, row[head.key], rowIndex)}
                 </td>
+                
               ))}
             </tr>
           ))}

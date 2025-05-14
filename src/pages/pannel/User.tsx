@@ -12,10 +12,15 @@ const User: React.FC = ({ data }) => {
           src={`data:image/png;base64,${data.avatarBase64}`}
         />
       </div>
-      <p className="text-zinc-50 text-center">
+      <p className=" text-center">
         {data.firstName}
         {data.lastName}
       </p>
+      <div className="flex w-full justify-center gap-5 my-3 text-2xl">
+        <i class="fal fa-square"></i>
+        <i class="fal fa-house"></i>
+        <i class="fal fa-right-from-bracket text-red-600"></i>
+      </div>
     </div>
   );
 };

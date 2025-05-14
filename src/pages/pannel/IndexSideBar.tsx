@@ -25,7 +25,7 @@ function getItem(
 type MenuItem = Required<MenuProps>["items"][number];
 
 const items: MenuItem[] = [
-  getItem("Option 1", "1", <PieChartOutlined />),
+  getItem("کاربران", "1", <PieChartOutlined />),
   getItem("Option 2", "2", <DesktopOutlined />),
   getItem("User", "sub1", <UserOutlined />, [
     getItem("Tom", "3"),
@@ -42,7 +42,7 @@ const items: MenuItem[] = [
 const IndexSideBar: React.FC = () => {
   return (
     <Menu
-      theme="dark"
+      theme="light"
       defaultSelectedKeys={["1"]}
       mode="inline"
       items={items}

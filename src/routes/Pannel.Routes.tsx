@@ -8,7 +8,7 @@ export const PannelRoute = {
   path: "/",
   children: [
     {
-      index: true,
+      path: "/users",
       element: (
         <Suspense fallback={<p>...Loading</p>}>
           <TableSection />

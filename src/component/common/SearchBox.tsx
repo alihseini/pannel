@@ -1,6 +1,6 @@
 import React from "react";
 
-const SearchBox: React.FC = ({ search, setSearch }) => {
+const SearchBox: React.FC = ({ search, setSearch, onSearch }) => {
   return (
     <div className="flex">
       <input
@@ -12,6 +12,7 @@ const SearchBox: React.FC = ({ search, setSearch }) => {
       />
       <button
         className="bg-blue-500 text-white p-2 rounded-l-full rounded-r-none border border-blue-500 h-10 cursor-pointer"
+        onClick={onSearch}
       >
         جست و جو
       </button>

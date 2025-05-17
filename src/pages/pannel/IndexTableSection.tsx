@@ -34,6 +34,11 @@ const TableSection: React.FC = () => {
     parseInt(searchParams.get("pageIndex") || "1")
   );
 
+  const handleSearch = () => {
+    setDebouncedSearch(search);
+    setPageIndex(1);
+  };
+
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(search);
@@ -86,7 +91,7 @@ const TableSection: React.FC = () => {
     </button>,
     <button
       key="delete"
-      className=" text-red-600 text-xl px-2 py-1 rounded mx-1 cursor-pointer"
+      className=" text-red-600 text-xl px-2 py-1 rounded mx-1 curp"
       onClick={() => alert(`Delete ${row.userName}`)}
     >
       <i class="fal fa-trash-alt"></i>
@@ -96,7 +101,11 @@ const TableSection: React.FC = () => {
   return (
     <>
       <div className="flex items-center mb-10 gap-5">
-        <SearchBox search={search} setSearch={setSearch} />
+        <SearchBox
+          search={search}
+          setSearch={setSearch}
+          onSearch={handleSearch}
+        />
         <FilterModal filter={filter} />
       </div>
       <MainTable

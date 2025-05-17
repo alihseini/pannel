@@ -32,7 +32,6 @@ const IndexSideBar: React.FC = () => {
     navigate(`/pannel/${e.key}`);
   };
 
-  // گرفتن بخش سوم مسیر برای انتخاب صحیح منو
   const currentPath = location.pathname.split("/")[2] || "users";
 
   return (

@@ -31,10 +31,13 @@ const FilterModal = ({ filter }) => {
           switch (item.key) {
             case "type":
               return (
-                <select>
-                  <option>شهروندی</option>
-                  <option>سازمانی</option>
-                </select>
+                <>
+                  <label>نوع کاربر:</label>
+                  <select className="w-full border-2">
+                    <option>شهروندی</option>
+                    <option>سازمانی</option>
+                  </select>
+                </>
               );
             default:
               return null;

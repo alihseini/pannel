@@ -1,7 +1,23 @@
 import React from "react";
 import Pagination from "./Pagination";
 
-const MainTable: React.FC = ({
+interface TableHead {
+  key: string;
+  label: string;
+}
+
+interface MainTableProps {
+  tableHead: TableHead[];
+  tableRow: Record<string, any>[];
+  pageSize: number;
+  pageSizeHandler: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  pageIndex: number;
+  totalPages: number;
+  pageChangeHandler: (newPage: number) => void;
+  actions?: (row: any) => React.ReactNode[];
+}
+
+const MainTable: React.FC<MainTableProps> = ({
   tableHead,
   tableRow,
   pageSize,
@@ -9,31 +25,27 @@ const MainTable: React.FC = ({
   pageIndex,
   totalPages,
   pageChangeHandler,
+  actions,
 }) => {
-  const formatCellValue = (key, value, rowIndex) => {
+  const formatCellValue = (
+    key: string,
+    value: any,
+    rowIndex: number,
+    row: Record<string, any>
+  ) => {
     switch (key) {
       case "index":
         return (pageIndex - 1) * pageSize + rowIndex + 1;
       case "status":
-        return (
-          <span
-            className={`px-2 py-1 rounded-full text-sm font-medium ${
-              value === 1
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
-            }`}
-          >
-            {value === 1 ? "فعال" : "غیرفعال"}
-          </span>
-        );
       case "twoFactorEnabled":
+        const isActive = key === "status" ? value === 1 : value;
         return (
           <span
             className={`px-2 py-1 rounded-full text-sm font-medium ${
-              value ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+              isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
             }`}
           >
-            {value ? "فعال" : "غیرفعال"}
+            {isActive ? "فعال" : "غیرفعال"}
           </span>
         );
       case "type":
@@ -48,10 +60,19 @@ const MainTable: React.FC = ({
             {value === 0 ? "سازمانی" : "شهروندی"}
           </span>
         );
+      case "actions":
+        return (
+          <div className="flex gap-2">
+            {actions?.(row).map((btn, i) => (
+              <span key={i}>{btn}</span>
+            ))}
+          </div>
+        );
       default:
         return value;
     }
   };
+
   return (
     <>
       <table className="min-w-full text-sm text-right">
@@ -72,14 +93,14 @@ const MainTable: React.FC = ({
             >
               {tableHead.map((head, colIndex) => (
                 <td key={colIndex} className="px-4 py-2">
-                  {formatCellValue(head.key, row[head.key], rowIndex)}
+                  {formatCellValue(head.key, row[head.key], rowIndex, row)}
                 </td>
-                
               ))}
             </tr>
           ))}
         </tbody>
       </table>
+
       <div className="flex items-center justify-center gap-4 mt-4">
         <Pagination
           pageIndex={pageIndex}
@@ -91,9 +112,9 @@ const MainTable: React.FC = ({
           onChange={pageSizeHandler}
           className="h-10 px-3 rounded-lg border border-gray-300 bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         >
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="50">50</option>
+          <option value={5}>5</option>
+          <option value={10}>10</option>
+          <option value={50}>50</option>
         </select>
       </div>
     </>

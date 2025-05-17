@@ -1,12 +1,7 @@
 import React from "react";
 import { Menu, type MenuProps } from "antd";
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { PieChartOutlined } from "@ant-design/icons";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function getItem(
   label: React.ReactNode,
@@ -25,27 +20,28 @@ function getItem(
 type MenuItem = Required<MenuProps>["items"][number];
 
 const items: MenuItem[] = [
-  getItem("کاربران", "1", <PieChartOutlined />),
-  getItem("Option 2", "2", <DesktopOutlined />),
-  getItem("User", "sub1", <UserOutlined />, [
-    getItem("Tom", "3"),
-    getItem("Bill", "4"),
-    getItem("Alex", "5"),
-  ]),
-  getItem("Team", "sub2", <TeamOutlined />, [
-    getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
-  ]),
-  getItem("Files", "9", <FileOutlined />),
+  getItem("کاربران", "users", <PieChartOutlined />),
+  getItem("تست", "test", <PieChartOutlined />),
 ];
 
 const IndexSideBar: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const clickHandler: MenuProps["onClick"] = (e) => {
+    navigate(`/pannel/${e.key}`);
+  };
+
+  // گرفتن بخش سوم مسیر برای انتخاب صحیح منو
+  const currentPath = location.pathname.split("/")[2] || "users";
+
   return (
     <Menu
       theme="light"
-      defaultSelectedKeys={["1"]}
+      selectedKeys={[currentPath]}
       mode="inline"
       items={items}
+      onClick={clickHandler}
     />
   );
 };

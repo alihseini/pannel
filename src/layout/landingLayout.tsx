@@ -1,7 +1,6 @@
 import React from "react";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Outlet } from "react-router-dom";
-import useAxios from "../utils/useAxios";
 
 const { Header, Content } = Layout;
 
@@ -11,7 +10,6 @@ const items = Array.from({ length: 15 }).map((_, index) => ({
 }));
 
 const LandingLayout: React.FC = () => {
-  useAxios();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();

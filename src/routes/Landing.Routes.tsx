@@ -1,17 +1,15 @@
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import LandingLayout from "../layout/LandingLayout";
-
-const Users = lazy(() => import("../component/common/Users"));
 
 export const LandingRoutes = {
   element: <LandingLayout />,
-  path: "/",
+  path: "/landing",
   children: [
     {
       path: "landing",
       element: (
         <Suspense fallback={<p>...Loading</p>}>
-          <Users />
+          <div>p</div>
         </Suspense>
       ),
     },

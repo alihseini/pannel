@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import MainTable from "../../component/common/MainTable";
-import SearchBox from "../../component/common/SearchBox";
-import FilterModal from "../../component/common/FilterModal";
+import { useEffect, useState } from "react";
+import TableSection from "../../component/common/TableSection";
 import useUsersQuery from "../../hooks/react-query/useUserQuery";
+import { useSearchParams } from "react-router-dom";
 
 const tableHead = [
-  { label: "ردیف", key: "index" },
-  { label: "نام", key: "firstName" },
-  { label: "نام خانوادگی", key: "lastName" },
-  { label: "کد ملی", key: "nationalCode" },
-  { label: "نام کاربری", key: "userName" },
-  { label: "وضعیت کاربر", key: "status" },
-  { label: "تایید دو مرحله ای", key: "twoFactorEnabled" },
-  { label: "نوع کاربر", key: "type" },
-  { label: "عملیات", key: "actions" },
+  { key: "index", label: "ردیف" },
+  { key: "fullName", label: "نام نام خانوادگی" },
+  { key: "nationalCode", label: "کد ملی" },
+  { key: "userName", label: "نام کاربری" },
+  { key: "status", label: "وضعیت" },
+  { key: "twoFactorEnabled", label: "تأیید دو مرحله‌ای" },
+  { key: "type", label: "نوع کاربر" },
+  { key: "actions", label: "عملیات" },
 ];
 
-const filter = [{ label: "نوع کاربر", key: "type" }];
+const expandFields = [
+  { label: "جنسیت", key: "gender" },
+  { label: "نام پدر", key: "fatherName" },
+  { label: "تاریخ تولد", key: "birthDate" },
+  { label: "کد ملی", key: "nationalCode" },
+  { label: "کد پرسنلی", key: "personelCode" },
+  { label: "ایمیل", key: "email" },
+  { label: "تعداد دسترسی ها", key: "permissionCount" },
+  { label: "سمت ها", key: "organizationPosts" },
+];
 
-const TableSection: React.FC = () => {
+const IndexUsers: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [search, setSearch] = useState<string>(
@@ -34,7 +40,7 @@ const TableSection: React.FC = () => {
     parseInt(searchParams.get("pageIndex") || "1")
   );
 
-  const handleSearch = () => {
+  const searchHandler = () => {
     setDebouncedSearch(search);
     setPageIndex(1);
   };
@@ -81,45 +87,41 @@ const TableSection: React.FC = () => {
     setPageIndex(newPage);
   };
 
-  const actions = (row: any) => [
+  const actions = (row) => [
     <button
       key="edit"
       className="text-blue-600 text-xl px-2 py-1 rounded mx-1 cursor-pointer"
       onClick={() => alert(`Edit ${row.userName}`)}
     >
-      <i class="fal fa-edit"></i>
+      <i className="fal fa-edit"></i>
     </button>,
     <button
       key="delete"
-      className=" text-red-600 text-xl px-2 py-1 rounded mx-1 curp"
+      className=" text-red-600 text-xl px-2 py-1 rounded mx-1 cursor-pointer"
       onClick={() => alert(`Delete ${row.userName}`)}
     >
-      <i class="fal fa-trash-alt"></i>
+      <i className="fal fa-trash-alt"></i>
     </button>,
   ];
 
   return (
-    <>
-      <div className="flex items-center mb-10 gap-5">
-        <SearchBox
-          search={search}
-          setSearch={setSearch}
-          onSearch={handleSearch}
-        />
-        <FilterModal filter={filter} />
-      </div>
-      <MainTable
+    <div>
+      <TableSection
         tableHead={tableHead}
         tableRow={data?.data?.data?.items || []}
-        pageSize={pageSize}
-        pageSizeHandler={pageSizeHandler}
-        pageIndex={pageIndex}
-        totalPages={data?.data?.data?.totalPages || 1}
-        pageChangeHandler={pageChangeHandler}
+        totalCount={data?.data?.data?.totalCount}
+        isPagination={{
+          pageIndex,
+          totalPages: data?.data?.data?.totalPages || 1,
+          pageChangeHandler,
+        }}
+        isSearch={{ search, setSearch, searchHandler }}
+        isSelect={{ pageSize, pageSizeHandler }}
         actions={actions}
+        expandFields={expandFields}
       />
-    </>
+    </div>
   );
 };
 
-export default TableSection;
+export default IndexUsers;

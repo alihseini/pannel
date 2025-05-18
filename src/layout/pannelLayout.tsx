@@ -1,19 +1,38 @@
 import React, { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
-
 import { Breadcrumb, Layout, Drawer, Button } from "antd";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, Link } from "react-router-dom";
 import IndexSideBar from "../pages/pannel/IndexSideBar";
 import User from "../pages/pannel/User";
 import { useUserData } from "../store/context/UserContext";
 
 const { Content, Sider } = Layout;
 
+const routeNameMap: Record<string, string> = {
+  pannel: "پنل",
+  users: "کاربران",
+};
+
 const PannelLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const data = useUserData();
+  const location = useLocation();
+
+  const pathSnippets = location.pathname.split("/").filter((i) => i);
+
+  const breadcrumbItems = pathSnippets.map((_, index) => {
+    const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
+    const key = pathSnippets[index];
+    const name = routeNameMap[key] || decodeURIComponent(key);
+
+    return (
+      <Breadcrumb.Item key={url}>
+        <Link to={url}>{name}</Link>
+      </Breadcrumb.Item>
+    );
+  });
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -25,7 +44,6 @@ const PannelLayout: React.FC = () => {
         theme="light"
       >
         <User data={data.user.data.data} />
-        <div className="demo-logo-vertical" />
         <IndexSideBar />
       </Sider>
 
@@ -51,8 +69,10 @@ const PannelLayout: React.FC = () => {
             </div>
 
             <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/">خانه</Link>
+              </Breadcrumb.Item>
+              {breadcrumbItems}
             </Breadcrumb>
           </div>
           <div

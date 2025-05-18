@@ -4,8 +4,6 @@ import SearchBox from "./SearchBox";
 import FilterModal from "./FilterModal";
 import Pagination from "../common/Pagination";
 
-const filter = [{ label: "نوع کاربر", key: "type" }];
-
 const TableSection: React.FC = ({
   tableHead,
   tableRow,
@@ -15,8 +13,9 @@ const TableSection: React.FC = ({
   isSelect,
   actions,
   expandFields,
+  filter,
+  onApplyFilters,
 }) => {
-  console.log(tableRow);
   return (
     <>
       <div className="flex items-center mb-10 gap-5">
@@ -27,15 +26,15 @@ const TableSection: React.FC = ({
             searchHandler={isSearch.searchHandler}
           />
         )}
-        <FilterModal filter={filter} />
-        <div className="mr-200">تعداد کل: {totalCount || 0}</div>
+        <FilterModal filter={filter} onApplyFilters={onApplyFilters} />
+        <div>تعداد کل: {totalCount || 0}</div>
       </div>
 
       <MainTable
         tableHead={tableHead}
         tableRow={tableRow || []}
-        pageIndex={isPagination.pageIndex}
-        pageSize={isSelect.pageSize}
+        pageIndex={isPagination?.pageIndex || 1}
+        pageSize={isSelect?.pageSize || 10}
         actions={actions}
         expandFields={expandFields}
       />

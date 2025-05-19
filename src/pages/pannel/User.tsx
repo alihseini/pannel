@@ -17,9 +17,9 @@ const User: React.FC = ({ data }) => {
         {data.lastName}
       </p>
       <div className="flex w-full justify-center gap-5 my-3 text-2xl items-center">
-        <i className="fal fa-square hover:cursor-pointer" ></i>
+        <i className="fal fa-square hover:cursor-pointer"></i>
         <i className="fal fa-house hover:cursor-pointer"></i>
-        <i className="fal fa-right-from-bracket text-red-600 hover:cursor-pointer"></i>
+        <i className="fal fa-left-to-bracket text-red-600 hover:cursor-pointer"></i>
       </div>
     </div>
   );

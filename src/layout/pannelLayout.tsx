@@ -8,31 +8,12 @@ import { useUserData } from "../store/context/UserContext";
 
 const { Content, Sider } = Layout;
 
-const routeNameMap: Record<string, string> = {
-  pannel: "پنل",
-  users: "کاربران",
-};
-
 const PannelLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const data = useUserData();
   const location = useLocation();
-
-  const pathSnippets = location.pathname.split("/").filter((i) => i);
-
-  const breadcrumbItems = pathSnippets.map((_, index) => {
-    const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
-    const key = pathSnippets[index];
-    const name = routeNameMap[key] || decodeURIComponent(key);
-
-    return (
-      <Breadcrumb.Item key={url}>
-        <Link to={url}>{name}</Link>
-      </Breadcrumb.Item>
-    );
-  });
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -67,13 +48,6 @@ const PannelLayout: React.FC = () => {
                 onClick={() => setOpenDrawer(true)}
               />
             </div>
-
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>
-                <Link to="/">خانه</Link>
-              </Breadcrumb.Item>
-              {breadcrumbItems}
-            </Breadcrumb>
           </div>
           <div
             style={{

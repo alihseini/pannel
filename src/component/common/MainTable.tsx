@@ -66,13 +66,7 @@ const MainTable: React.FC = ({
         return moment(value).format("jYYYY/jMM/jDD");
 
       case "actions":
-        return (
-          <div className="flex gap-2">
-            {actions(row).map((btn, i) => (
-              <span key={i}>{btn}</span>
-            ))}
-          </div>
-        );
+        return actions?.(row);
 
       default:
         return value ?? "—";

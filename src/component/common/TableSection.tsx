@@ -1,7 +1,6 @@
 import React from "react";
 import MainTable from "./MainTable";
 import SearchBox from "./SearchBox";
-import FilterModal from "./FilterModal";
 import Pagination from "../common/Pagination";
 
 const TableSection: React.FC = ({
@@ -11,10 +10,8 @@ const TableSection: React.FC = ({
   isPagination,
   isSearch,
   isSelect,
-  actions,
   expandFields,
-  filter,
-  onApplyFilters,
+  actions,
 }) => {
   return (
     <>
@@ -26,7 +23,6 @@ const TableSection: React.FC = ({
             searchHandler={isSearch.searchHandler}
           />
         )}
-        <FilterModal filter={filter} onApplyFilters={onApplyFilters} />
         <div>تعداد کل: {totalCount || 0}</div>
       </div>
 
@@ -35,8 +31,8 @@ const TableSection: React.FC = ({
         tableRow={tableRow || []}
         pageIndex={isPagination?.pageIndex || 1}
         pageSize={isSelect?.pageSize || 10}
-        actions={actions}
         expandFields={expandFields}
+        actions={actions}
       />
 
       <div className="flex items-center justify-center gap-4 mt-4">

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
-import { Breadcrumb, Layout, Drawer, Button } from "antd";
-import { Outlet, useLocation, Link } from "react-router-dom";
+import {  Layout, Drawer, Button } from "antd";
+import { Outlet } from "react-router-dom";
 import IndexSideBar from "../pages/pannel/IndexSideBar";
 import User from "../pages/pannel/User";
 import { useUserData } from "../store/context/UserContext";
@@ -13,7 +13,6 @@ const PannelLayout: React.FC = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const data = useUserData();
-  const location = useLocation();
 
   return (
     <Layout style={{ minHeight: "100vh" }}>

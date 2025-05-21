@@ -92,9 +92,13 @@ const IndexUsers: React.FC = () => {
   return (
     <>
       <Header
-        button={{ buttonName: "ثبت کاربر جدید", buttonPath: "/pannel/newUser" }}
+        button={{
+          buttonName: "ثبت کاربر جدید",
+          buttonPath: "/pannel/newUser",
+        }}
+        title={"کاربران"}
       />
-      <div>
+      <div className="mt-5">
         <TableSection
           tableHead={tableHead}
           tableRow={data?.data?.data?.items || []}

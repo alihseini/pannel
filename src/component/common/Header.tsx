@@ -8,7 +8,7 @@ const routeNameMap: Record<string, string> = {
   newUser: "کاربر جدید",
 };
 
-const Header: React.FC = ({ button }) => {
+const Header: React.FC = ({ button, title }) => {
   const pathSnippets = location.pathname.split("/").filter((i) => i);
   const breadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
@@ -22,14 +22,21 @@ const Header: React.FC = ({ button }) => {
     );
   });
   return (
-    <div className="w-full flex justify-between items-center">
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>
-          <Link to="/">خانه</Link>
-        </Breadcrumb.Item>
-        {breadcrumbItems}
-      </Breadcrumb>
-      <Link to={button.buttonPath}>{button.buttonName}</Link>
+    <div className="w-full flex justify-between items-center border-b-1 border-gray-200 mx-5">
+      <div>
+        <p className="text-2xl font-bold">{title}</p>
+        <Breadcrumb style={{ margin: "16px 0" }}>
+          <Breadcrumb.Item>
+            <Link to="/">خانه</Link>
+          </Breadcrumb.Item>
+          {breadcrumbItems}
+        </Breadcrumb>
+      </div>
+      <div className="bg-blue-600 p-2 ml-5 rounded-xl hover:bg-blue-300 duration-300 cursor-pointer">
+        <Link className="!text-white" to={button.buttonPath}>
+          {button.buttonName}
+        </Link>
+      </div>
     </div>
   );
 };

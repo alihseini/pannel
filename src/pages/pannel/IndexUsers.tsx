@@ -41,6 +41,7 @@ const IndexUsers: React.FC = () => {
   const [pageIndex, setPageIndex] = useState<number>(() =>
     parseInt(searchParams.get("pageIndex") || "1")
   );
+  const { data } = useUsersQuery(pageSize, pageIndex, debouncedSearch);
 
   const searchHandler = () => {
     setDebouncedSearch(search);
@@ -55,8 +56,6 @@ const IndexUsers: React.FC = () => {
 
     return () => clearTimeout(handler);
   }, [search]);
-
-  const { data } = useUsersQuery(pageSize, pageIndex, debouncedSearch);
 
   useEffect(() => {
     const params: any = {

@@ -267,47 +267,51 @@ const NewEditUser: React.FC = () => {
                 ]}
               ></Radio.Group>
             </Form.Item>
+            {!id && (
+              <Form.Item
+                label="رمز عبور"
+                className="!mt-8"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "لطفا رمز عبور را وارد کنید!",
+                  },
+                  {
+                    pattern:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!]).{8,}$/,
+                    message:
+                      "رمز عبور باید حداقل ۸ کاراکتر، شامل حروف بزرگ، کوچک، عدد و یک کاراکتر خاص باشد.",
+                  },
+                ]}
+              >
+                <Input.Password placeholder="مثال: MyPass@123" />
+              </Form.Item>
+            )}
+          </div>
+          {!id && (
             <Form.Item
-              label="رمز عبور"
-              className="!mt-8"
-              name="password"
+              label="تکرار رمز عبور"
+              name="confirmPassword"
+              dependencies={["password"]}
               rules={[
                 {
                   required: true,
-                  message: "لطفا رمز عبور را وارد کنید!",
+                  message: "لطفا تکرار رمز عبور را وارد کنید!",
                 },
-                {
-                  pattern:
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!]).{8,}$/,
-                  message:
-                    "رمز عبور باید حداقل ۸ کاراکتر، شامل حروف بزرگ، کوچک، عدد و یک کاراکتر خاص باشد.",
-                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject("رمز عبور با تکرار آن مطابقت ندارد!");
+                  },
+                }),
               ]}
             >
-              <Input.Password placeholder="مثال: MyPass@123" />
+              <Input.Password placeholder="تکرار رمز عبور" />
             </Form.Item>
-          </div>
-          <Form.Item
-            label="تکرار رمز عبور"
-            name="confirmPassword"
-            dependencies={["password"]}
-            rules={[
-              {
-                required: true,
-                message: "لطفا تکرار رمز عبور را وارد کنید!",
-              },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject("رمز عبور با تکرار آن مطابقت ندارد!");
-                },
-              }),
-            ]}
-          >
-            <Input.Password placeholder="تکرار رمز عبور" />
-          </Form.Item>
+          )}
           <div className="col-span-3"></div>
           <Form.Item
             label="تعیین نوع ساعات محدودیت ورود"
@@ -363,9 +367,6 @@ const NewEditUser: React.FC = () => {
             label="تصویر کاربر"
             name="avatarFile"
             className="col-span-4"
-            rules={[
-              { required: true, message: "لطفا تصویر خود را وارد کنید!" },
-            ]}
           >
             <Dragger {...props} className="w-full">
               <p className="ant-upload-drag-icon">

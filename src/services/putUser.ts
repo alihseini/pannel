@@ -9,7 +9,7 @@ const putUser = async (user) => {
   });
 
   try {
-    const response = await api.post("/v1/User", formData, {
+    const response = await api.put("/v1/User", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

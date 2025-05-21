@@ -1,10 +1,12 @@
-import { Button, Form, Input, Radio, Upload } from "antd";
-import React from "react";
+import { Button, Form, Input, Radio, Switch, TimePicker, Upload } from "antd";
+import React, { useEffect, useState } from "react";
 import Header from "../../component/common/Header";
 import Dragger from "antd/es/upload/Dragger";
 import postNewUser from "../../services/postNewUser";
 import CustomDrawer from "../../component/common/CustomDrawer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import getEditUser from "../../services/getEditUser";
+import putUser from "../../services/putUser";
 
 const props = {
   name: "file",
@@ -37,29 +39,48 @@ const props = {
 
 const NewEditUser: React.FC = () => {
   const navigate = useNavigate();
+  const [enabled, setEnabled] = useState(false);
+  const { id } = useParams();
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (id) {
+      const getData = async () => {
+        const data = await getEditUser(id);
+        form.setFieldsValue(data);
+      };
+      getData();
+    }
+  }, [id]);
 
   const onFinish = async (values) => {
-    let BirthDateIso = null;
+    let birthDateIso = null;
     if (values.BirthDate) {
-      const parsedDate = new Date(values.BirthDate);
+      const parsedDate = new Date(values.birthDate);
       if (!isNaN(parsedDate.getTime())) {
-        BirthDateIso = parsedDate.toISOString();
+        birthDateIso = parsedDate.toISOString();
       } else {
         message.error("تاریخ تولد نامعتبر است!");
         return;
       }
     }
 
-    const User = {
+    const user = {
       ...values,
-      BirthDate: BirthDateIso,
+      BirthDate: birthDateIso,
     };
-    console.log(values);
-    await postNewUser(User);
+    if (id) {
+      await putUser({ ...user, id });
+    } else {
+      await postNewUser(user);
+    }
     navigate("/pannel/users");
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+  };
+  const cancelHandler = () => {
+    navigate(-1);
   };
   return (
     <>
@@ -68,6 +89,7 @@ const NewEditUser: React.FC = () => {
         <p className="mb-5">اطلاعات عمومی</p>
         <Form
           name="basic"
+          form={form}
           labelCol={{ span: 8 }}
           layout="vertical"
           wrapperCol={{ span: 16 }}
@@ -79,7 +101,7 @@ const NewEditUser: React.FC = () => {
         >
           <Form.Item
             label="کد ملی"
-            name="NationalCode"
+            name="nationalCode"
             rules={[
               {
                 required: true,
@@ -93,6 +115,7 @@ const NewEditUser: React.FC = () => {
           >
             <Input
               maxLength={10}
+              disabled={!!id}
               count={{ show: true, max: 10 }}
               placeholder="مثال: 0012345678"
               inputMode="numeric"
@@ -105,14 +128,14 @@ const NewEditUser: React.FC = () => {
           </Form.Item>
           <Form.Item
             label="نام"
-            name="FirstName"
+            name="firstName"
             rules={[{ required: true, message: "لطفا نام خود را وارد کنید!" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="نام خانوادگی"
-            name="LastName"
+            name="lastName"
             rules={[
               {
                 required: true,
@@ -124,7 +147,7 @@ const NewEditUser: React.FC = () => {
           </Form.Item>{" "}
           <Form.Item
             label="نام پدر"
-            name="FatherName"
+            name="fatherName"
             rules={[
               { required: true, message: "لطفا نام پدر خود را وارد کنید!" },
             ]}
@@ -133,7 +156,7 @@ const NewEditUser: React.FC = () => {
           </Form.Item>
           <Form.Item
             label="موبایل"
-            name="Mobile"
+            name="mobile"
             rules={[
               {
                 required: true,
@@ -156,12 +179,12 @@ const NewEditUser: React.FC = () => {
               }}
             />
           </Form.Item>
-          <Form.Item label="تاریخ تولد" name="BirthDate">
+          <Form.Item label="تاریخ تولد" name="birthDate">
             <Input type="date" />
           </Form.Item>
           <Form.Item
             label="ایمیل"
-            name="Email"
+            name="email"
             rules={[
               { required: true, message: "لطفا ایمیل خود را وارد کنید!" },
             ]}
@@ -170,7 +193,7 @@ const NewEditUser: React.FC = () => {
           </Form.Item>
           <Form.Item
             label="جنسیت"
-            name="Gender"
+            name="gender"
             rules={[
               { required: true, message: "لطفا جنسیت خود را وارد کنید!" },
             ]}
@@ -180,7 +203,6 @@ const NewEditUser: React.FC = () => {
                 { value: 0, label: "مرد" },
                 { value: 1, label: "زن" },
               ]}
-              defaultValue={0}
             ></Radio.Group>
           </Form.Item>
           <div className="flex items-center gap-3 col-span-4">
@@ -188,18 +210,17 @@ const NewEditUser: React.FC = () => {
             <div className="bg-gray-200 h-[1px] grow"></div>
           </div>
           <div>
-            <Form.Item label="وضعیت" name="Status">
+            <Form.Item label="وضعیت" name="status">
               <Radio.Group
                 options={[
                   { value: 0, label: "غیرفعال" },
                   { value: 1, label: "فعال" },
                 ]}
-                defaultValue={1}
               ></Radio.Group>
             </Form.Item>
             <Form.Item
               label="نام کاربری"
-              name="UserName"
+              name="userName"
               rules={[
                 {
                   required: true,
@@ -207,72 +228,69 @@ const NewEditUser: React.FC = () => {
                 },
               ]}
             >
-              <Input disabled />
+              <Input disabled={!!id} />
             </Form.Item>
           </div>
           <div>
-            <Form.Item label="ورود دو مرحله" name="TwoFactorEnabled">
+            <Form.Item label="ورود دو مرحله" name="twoFactorEnabled">
               <Radio.Group
                 options={[
-                  { value: 0, label: "غیرفعال" },
-                  { value: 1, label: "فعال" },
+                  { value: false, label: "غیرفعال" },
+                  { value: true, label: "فعال" },
                 ]}
-                defaultValue={0}
               ></Radio.Group>
             </Form.Item>
-            <Form.Item label="استعلام ثبت احوال" name="UserName">
+            <Form.Item label="استعلام ثبت احوال">
               <Input disabled />
             </Form.Item>
           </div>
           <div>
-            <Form.Item label="دسترسی به وب" name="TwoFactorEnabled">
+            <Form.Item label="دسترسی به وب" name="smsWebServiceAccess">
               <Radio.Group
                 options={[
-                  { value: 0, label: "ندارد" },
-                  { value: 1, label: "دارد" },
+                  { value: false, label: "ندارد" },
+                  { value: true, label: "دارد" },
                 ]}
-                defaultValue={0}
               ></Radio.Group>
             </Form.Item>
-            <Form.Item label="استعلام شاهکار " name="UserName">
+            <Form.Item label="استعلام شاهکار ">
               <Input disabled />
             </Form.Item>
           </div>
           <div>
-            <Form.Item label="نوع کاربر" name="Type" initialValue="0">
+            <Form.Item label="نوع کاربر" name="type" initialValue="0">
               <Radio.Group
                 options={[
                   { value: 0, label: "شهروند" },
                   { value: 1, label: "سازمانی" },
                   { value: 2, label: "LDPA" },
                 ]}
-                defaultValue={1}
               ></Radio.Group>
-              <Form.Item
-                label="رمز عبور"
-                className="!mt-8"
-                name="Password"
-                rules={[
-                  {
-                    required: true,
-                    message: "لطفا رمز عبور را وارد کنید!",
-                  },
-                  {
-                    pattern:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!]).{8,}$/,
-                    message:
-                      "رمز عبور باید حداقل ۸ کاراکتر، شامل حروف بزرگ، کوچک، عدد و یک کاراکتر خاص باشد.",
-                  },
-                ]}
-              >
-                <Input.Password placeholder="مثال: MyPass@123" />
-              </Form.Item>
+            </Form.Item>
+            <Form.Item
+              label="رمز عبور"
+              className="!mt-8"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "لطفا رمز عبور را وارد کنید!",
+                },
+                {
+                  pattern:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!]).{8,}$/,
+                  message:
+                    "رمز عبور باید حداقل ۸ کاراکتر، شامل حروف بزرگ، کوچک، عدد و یک کاراکتر خاص باشد.",
+                },
+              ]}
+            >
+              <Input.Password placeholder="مثال: MyPass@123" />
             </Form.Item>
           </div>
           <Form.Item
             label="تکرار رمز عبور"
-            name="ConfirmPassword"
-            dependencies={["Password"]}
+            name="confirmPassword"
+            dependencies={["password"]}
             rules={[
               {
                 required: true,
@@ -280,7 +298,7 @@ const NewEditUser: React.FC = () => {
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue("Password") === value) {
+                  if (!value || getFieldValue("password") === value) {
                     return Promise.resolve();
                   }
                   return Promise.reject("رمز عبور با تکرار آن مطابقت ندارد!");
@@ -289,6 +307,45 @@ const NewEditUser: React.FC = () => {
             ]}
           >
             <Input.Password placeholder="تکرار رمز عبور" />
+          </Form.Item>
+          <div className="col-span-3"></div>
+          <Form.Item
+            label="تعیین نوع ساعات محدودیت ورود"
+            className="mb-0 col-span-4"
+          >
+            <Switch
+              checked={enabled}
+              onChange={setEnabled}
+              checkedChildren="مجاز به ورود در ساعت معین"
+              unCheckedChildren="عدم مجاز به ورود در ساعت معین"
+              style={{ minWidth: 180 }}
+            />
+          </Form.Item>
+          <Form.Item
+            label={enabled ? "ساعت مجاز آغاز ورود" : "ساعت غیرمجاز آغاز ورود"}
+            className="flex-1"
+          >
+            <TimePicker
+              disabled={!enabled}
+              style={{
+                width: "100%",
+                backgroundColor: "#fafafa",
+                padding: "8px",
+              }}
+            />
+          </Form.Item>
+          <Form.Item
+            label={enabled ? "ساعت مجاز آغاز ورود" : "ساعت غیرمجاز آغاز ورود"}
+            className="flex-1"
+          >
+            <TimePicker
+              disabled={!enabled}
+              style={{
+                width: "100%",
+                backgroundColor: "#fafafa",
+                padding: "8px",
+              }}
+            />
           </Form.Item>
           <div className="flex items-center gap-3 col-span-4">
             <h2 className="text-xl">اطلاعات سازمانی</h2>
@@ -304,8 +361,7 @@ const NewEditUser: React.FC = () => {
           </div>
           <Form.Item
             label="تصویر کاربر"
-            name="AvatarFile"
-            initialValue="0"
+            name="avatarFile"
             className="col-span-4"
             rules={[
               { required: true, message: "لطفا تصویر خود را وارد کنید!" },
@@ -323,11 +379,14 @@ const NewEditUser: React.FC = () => {
               </p>
             </Dragger>
           </Form.Item>
-          <Form.Item label={null}>
-            <Button type="primary" htmlType="submit">
-              تایید
-            </Button>
-          </Form.Item>
+          <div className="flex w-full ">
+            <Button onClick={cancelHandler}>انصراف</Button>
+            <Form.Item label={null}>
+              <Button type="primary" htmlType="submit">
+                تایید
+              </Button>
+            </Form.Item>
+          </div>
         </Form>
       </div>
     </>

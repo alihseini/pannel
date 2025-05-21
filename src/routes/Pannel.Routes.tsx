@@ -3,7 +3,7 @@ import PannelLayout from "../layout/PannelLayout";
 import { Navigate } from "react-router-dom";
 
 const IndexUsers = lazy(() => import("../pages/pannel/IndexUsers"));
-const NewUser = lazy(() => import("../pages/pannel/NewEditUser"));
+const NewEditUser = lazy(() => import("../pages/pannel/NewEditUser"));
 
 export const PannelRoute = {
   element: <PannelLayout />,
@@ -25,7 +25,15 @@ export const PannelRoute = {
       path: "pannel/newUser",
       element: (
         <Suspense fallback={<p>...Loading</p>}>
-          <NewUser />
+          <NewEditUser />
+        </Suspense>
+      ),
+    },
+    {
+      path: "pannel/editUser/:id",
+      element: (
+        <Suspense fallback={<p>...Loading</p>}>
+          <NewEditUser />
         </Suspense>
       ),
     },

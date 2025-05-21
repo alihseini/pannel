@@ -6,6 +6,7 @@ const routeNameMap: Record<string, string> = {
   pannel: "پنل",
   users: "کاربران",
   newUser: "کاربر جدید",
+  editUser: "ویرایش کاربر",
 };
 
 const Header: React.FC = ({ button, title }) => {

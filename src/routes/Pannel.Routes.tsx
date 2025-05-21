@@ -3,7 +3,7 @@ import PannelLayout from "../layout/PannelLayout";
 import { Navigate } from "react-router-dom";
 
 const IndexUsers = lazy(() => import("../pages/pannel/IndexUsers"));
-const NewUser = lazy(() => import("../pages/pannel/NewUser"));
+const NewUser = lazy(() => import("../pages/pannel/NewEditUser"));
 
 export const PannelRoute = {
   element: <PannelLayout />,

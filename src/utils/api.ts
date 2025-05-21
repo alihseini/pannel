@@ -3,7 +3,20 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_APP_API;
 const DARGAH = import.meta.env.VITE_DARGAH;
 
-const api = axios.create({ baseURL: API_URL, withCredentials: true });
+const api = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+});
+
+api.interceptors.request.use(
+  (config) => {
+    if (config.method === "post") {
+      console.log("درخواست POST در حال ارسال است:", config.url);
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 api.interceptors.response.use(
   (response) => response,
@@ -20,7 +33,7 @@ api.interceptors.response.use(
           window.location.href = "/500";
           break;
         default:
-          console.log(error.response);
+          console.error("خطای ناشناخته:", error.response);
           break;
       }
     }
@@ -29,4 +42,3 @@ api.interceptors.response.use(
 );
 
 export default api;
-

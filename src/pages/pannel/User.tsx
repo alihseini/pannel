@@ -2,15 +2,7 @@ import { Avatar } from "antd";
 import React, { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 
-interface Props {
-  data: {
-    avatarBase64: string;
-    firstName: string;
-    lastName: string;
-  };
-}
-
-const User: React.FC<Props> = ({ data }) => {
+const User: React.FC = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -26,14 +18,12 @@ const User: React.FC<Props> = ({ data }) => {
         {data.firstName} {data.lastName}
       </p>
 
-      {/* حالت md و بالاتر: آیکون‌ها به‌صورت عادی */}
       <div className="hidden lg:flex w-full justify-center gap-5 my-3 text-2xl items-center">
         <i className="fal fa-square-dashed hover:cursor-pointer"></i>
         <i className="fal fa-house hover:cursor-pointer"></i>
         <i className="fal fa-left-to-bracket text-red-600 hover:cursor-pointer"></i>
       </div>
 
-      {/* حالت md پایین‌تر: منوی پاپ‌آپ بازشون نشون میده */}
       <div className="flex lg:hidden w-full justify-center my-3 text-2xl items-center">
         <div className="relative">
           <i

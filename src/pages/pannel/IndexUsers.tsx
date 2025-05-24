@@ -104,7 +104,7 @@ const IndexUsers: React.FC = () => {
           totalCount={data?.data?.totalCount}
           isPagination={{
             pageIndex,
-            totalPages: data?.data?.data?.totalPages || 1,
+            totalPages: data?.data?.totalPages || 1,
             pageChangeHandler,
           }}
           isSearch={{ search, setSearch, searchHandler }}

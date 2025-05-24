@@ -1,5 +1,6 @@
 import api from "../utils/api";
 import toast from "react-hot-toast";
+import { getFormData } from "../utils/helper";
 
 const getAllUsers = (pageSize, pageIndex, search) => {
   return new Promise((resolve, reject) => {
@@ -19,13 +20,7 @@ const getAllUsers = (pageSize, pageIndex, search) => {
 
 const postNewUser = (user) => {
   return new Promise((resolve, reject) => {
-    const formData = new FormData();
-    Object.entries(user).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        formData.append(key, value);
-      }
-    });
-
+    const formData = getFormData(user);
     api
       .post("/v1/User", formData, {
         headers: {
@@ -59,13 +54,7 @@ const getEditUser = (id) => {
 
 const putUser = (user) => {
   return new Promise((resolve, reject) => {
-    const formData = new FormData();
-    Object.entries(user).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        formData.append(key, value);
-      }
-    });
-
+    const formData = getFormData(user);
     api
       .put("/v1/User", formData, {
         headers: {

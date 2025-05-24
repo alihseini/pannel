@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import api from "../utils/api";
 
 const postNewUser = async (user) => {
@@ -14,9 +15,10 @@ const postNewUser = async (user) => {
         "Content-Type": "multipart/form-data",
       },
     });
+    toast.success("کاربر با موفقیت اضافه شد!");
     return response.data;
   } catch (error) {
-    console.error("خطا در ارسال اطلاعات کاربر:", error);
+    toast.error(error.response.data.message);
     throw error;
   }
 };

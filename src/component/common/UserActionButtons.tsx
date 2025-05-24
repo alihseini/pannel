@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import deleteUser from "../../services/deleteUser";
+import toast from "react-hot-toast";
 
 const UserActionButton: React.FC<{ id: string; onRefetch: () => void }> = ({
   id,
@@ -16,8 +17,10 @@ const UserActionButton: React.FC<{ id: string; onRefetch: () => void }> = ({
     try {
       await deleteUser(id);
       await onRefetch();
+      toast.success("کاربر با موفقیت حذف شد");
     } catch (error) {
-      console.error("خطا در حذف:", error);
+      toast.error("خطا در حذف");
+      throw error;
     }
   };
 

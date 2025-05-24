@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import api from "../utils/api";
 
 const putUser = async (user) => {
@@ -16,7 +17,7 @@ const putUser = async (user) => {
     });
     return response.data;
   } catch (error) {
-    console.error("خطا در ارسال اطلاعات کاربر:", error);
+    toast("خطا در ارسال اطلاعات کاربر");
     throw error;
   }
 };

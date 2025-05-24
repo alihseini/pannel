@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import api from "../utils/api";
 
 const deleteUser = async (userId) => {
@@ -7,7 +8,7 @@ const deleteUser = async (userId) => {
     });
     return response.data;
   } catch (error) {
-    console.error("خطا در حذف کاربر:", error);
+    toast.error("خطا در حذف کاربر!");
     throw error;
   }
 };

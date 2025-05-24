@@ -3,12 +3,11 @@ import router from "./routes/Routes";
 import UserProvider from "./store/context/userContext";
 import { ConfigProvider } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import getCurrentUser from "./services/getCurrentUser";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
 function App() {
-  
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider>
@@ -20,6 +19,7 @@ function App() {
           }}
         >
           <RouterProvider router={router} />
+          <Toaster position="top-right" reverseOrder={false} />
         </ConfigProvider>
       </UserProvider>
     </QueryClientProvider>

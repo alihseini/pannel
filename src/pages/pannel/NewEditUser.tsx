@@ -47,7 +47,6 @@ const NewEditUser: React.FC = () => {
   const queryClient = useQueryClient();
   const [enabled, setEnabled] = useState(false);
 
-  // get user data
   const { data: userData } = useQuery({
     queryKey: ["user", id],
     queryFn: () => getEditUser(id!),
@@ -60,7 +59,7 @@ const NewEditUser: React.FC = () => {
     }
   }, [userData]);
 
-  // handle submit
+
   const mutation = useMutation({
     mutationFn: (userData: any) => {
       return id ? putUser({ ...userData, id }) : postNewUser(userData);

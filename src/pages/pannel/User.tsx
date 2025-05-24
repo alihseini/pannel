@@ -18,7 +18,7 @@ const User: React.FC = ({ data }) => {
         {data.firstName} {data.lastName}
       </p>
 
-      <div className="hidden lg:flex w-full justify-center gap-5 my-3 text-2xl items-center">
+      <div className="hidden lg:flex w-full justify-center gap-5 my-3 text-2xl items-center border-b-1 border-gray-300 p-3">
         <i className="fal fa-square-dashed hover:cursor-pointer"></i>
         <i className="fal fa-house hover:cursor-pointer"></i>
         <i className="fal fa-left-to-bracket text-red-600 hover:cursor-pointer"></i>
@@ -32,7 +32,7 @@ const User: React.FC = ({ data }) => {
           />
 
           {isOpen && (
-            <div className="absolute top-full mt-2 right-1/2 translate-x-1/2 w-40 rounded-xl shadow-lg bg-white border z-50">
+            <div className="absolute top-full mt-2 right-1/2 translate-x-1/2 w-40 rounded-xl shadow-lg bg-white z-50">
               <ul className="flex flex-col p-2 gap-2 text-xl text-gray-700">
                 <li className="flex items-center gap-2 hover:text-blue-500 cursor-pointer">
                   <i className="fal fa-square-dashed" /> گزینه ۱

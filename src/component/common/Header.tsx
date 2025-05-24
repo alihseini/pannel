@@ -23,7 +23,7 @@ const Header: React.FC = ({ button, title }) => {
     );
   });
   return (
-    <div className="w-full flex justify-between items-center border-b-1 border-gray-200 mx-5">
+    <div className="w-full flex justify-between items-center border-b-1 border-gray-200 m-5">
       <div>
         <p className="text-2xl font-bold">{title}</p>
         <Breadcrumb style={{ margin: "16px 0" }}>
@@ -33,8 +33,12 @@ const Header: React.FC = ({ button, title }) => {
           {breadcrumbItems}
         </Breadcrumb>
       </div>
-      <div className="bg-blue-600 p-2 ml-5 rounded-xl hover:bg-blue-300 duration-300 cursor-pointer">
-        <Link className="!text-white" to={button.buttonPath}>
+      <div className=" p-2 ml-5 border-1 border-gray-300 rounded-[10px] hover:border-black duration-300 cursor-pointer">
+        <Link
+          className="!text-black  flex items-center gap-2"
+          to={button.buttonPath}
+        >
+          <i className="fal fa-angle-right"></i>
           {button.buttonName}
         </Link>
       </div>

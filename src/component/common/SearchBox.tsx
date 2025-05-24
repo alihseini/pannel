@@ -11,7 +11,7 @@ const SearchBox: React.FC = ({ search, setSearch, onSearch }) => {
         onChange={(e) => setSearch(e.target.value)}
       />
       <button
-        className="bg-blue-500  rounded-md  text-white p-2 border border-blue-500 h-10 cursor-pointer"
+        className="bg-[#d4e0ec] !text-blue-800 rounded-md  text-white p-2 h-10 cursor-pointer"
         onClick={onSearch}
       >
         جست و جو

@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import getEditUser from "../../services/getEditUser";
 import putUser from "../../services/putUser";
 import GuideDrawer from "../../component/common/GuideDrawer";
+import AllowedIP from "../../component/common/AllowedIp";
 
 const props = {
   name: "file",
@@ -327,7 +328,7 @@ const NewEditUser: React.FC = () => {
           </Form.Item>
           <Form.Item
             label={enabled ? "ساعت مجاز آغاز ورود" : "ساعت غیرمجاز آغاز ورود"}
-            className="flex-1"
+            className="flex-1 col-span-2"
           >
             <TimePicker
               disabled={!enabled}
@@ -340,7 +341,7 @@ const NewEditUser: React.FC = () => {
           </Form.Item>
           <Form.Item
             label={enabled ? "ساعت مجاز آغاز ورود" : "ساعت غیرمجاز آغاز ورود"}
-            className="flex-1"
+            className="flex-1 col-span-2"
           >
             <TimePicker
               disabled={!enabled}
@@ -351,6 +352,7 @@ const NewEditUser: React.FC = () => {
               }}
             />
           </Form.Item>
+          <AllowedIP />
           <div className="flex items-center gap-3 col-span-4">
             <h2 className="text-xl">اطلاعات سازمانی</h2>
             <div className="bg-gray-200 h-[1px] grow"></div>
@@ -397,7 +399,7 @@ const NewEditUser: React.FC = () => {
               </p>
             </Dragger>
           </Form.Item>
-          <div className="flex w-full ">
+          <div className="flex w-full">
             <Button onClick={cancelHandler}>انصراف</Button>
             <Form.Item label={null}>
               <Button type="primary" htmlType="submit">

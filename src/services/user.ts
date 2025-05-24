@@ -11,6 +11,7 @@ const getAllUsers = (pageSize, pageIndex, search) => {
         resolve(response.data);
       })
       .catch((error) => {
+        toast.error(error?.response?.data?.message || "خطایی رخ داده است");
         reject(error);
       });
   });
@@ -50,6 +51,7 @@ const getEditUser = (id) => {
         resolve(response.data.data);
       })
       .catch((error) => {
+        toast.error(error?.response?.data?.message || "خطایی رخ داده است");
         reject(error);
       });
   });

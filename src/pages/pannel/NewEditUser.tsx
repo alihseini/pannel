@@ -33,9 +33,9 @@ const props = {
   // optional: show uploaded file
   onChange(info) {
     if (info.file.status === "done") {
-      message.success(`${info.file.name} با موفقیت بارگذاری شد`);
+      toast.success(`${info.file.name} با موفقیت بارگذاری شد`);
     } else if (info.file.status === "error") {
-      message.error(`${info.file.name} در بارگذاری با خطا مواجه شد`);
+      toast.error(`${info.file.name} در بارگذاری با خطا مواجه شد`);
     }
   },
 };
@@ -71,7 +71,7 @@ const NewEditUser: React.FC = () => {
       navigate("/pannel/users");
     },
     onError: () => {
-      message.error("در ذخیره اطلاعات مشکلی پیش آمد");
+      toast.error("در ذخیره اطلاعات مشکلی پیش آمد");
     },
   });
 
@@ -83,7 +83,7 @@ const NewEditUser: React.FC = () => {
       if (!isNaN(parsedDate.getTime())) {
         birthDateIso = parsedDate.toISOString();
       } else {
-        message.error("تاریخ تولد نامعتبر است!");
+        toast.error("تاریخ تولد نامعتبر است!");
         return;
       }
     }

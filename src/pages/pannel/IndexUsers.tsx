@@ -100,8 +100,8 @@ const IndexUsers: React.FC = () => {
       <div className="mt-5">
         <TableSection
           tableHead={tableHead}
-          tableRow={data?.data?.data?.items || []}
-          totalCount={data?.data?.data?.totalCount}
+          tableRow={data?.data?.items || []}
+          totalCount={data?.data?.totalCount}
           isPagination={{
             pageIndex,
             totalPages: data?.data?.data?.totalPages || 1,
@@ -109,7 +109,9 @@ const IndexUsers: React.FC = () => {
           }}
           isSearch={{ search, setSearch, searchHandler }}
           isSelect={{ pageSize, pageSizeHandler }}
-          actions={(row) => <UserActionButton id={row.id} onRefetch={refetch} />}
+          actions={(row) => (
+            <UserActionButton id={row.id} onRefetch={refetch} />
+          )}
           expandFields={expandFields}
         />
       </div>

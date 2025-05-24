@@ -1,28 +1,31 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import deleteUser from "../../services/deleteUser";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteUser } from "../../services/user";
 import toast from "react-hot-toast";
 import DeleteButton from "./DeleteButton";
 
-const UserActionButton: React.FC<{ id: string; onRefetch: () => void }> = ({
-  id,
-  onRefetch,
-}) => {
+const UserActionButton: React.FC<{ id: string }> = ({ id }) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const editHandler = () => {
     navigate(`/pannel/editUser/${id}`);
   };
 
-  const deleteHandler = async () => {
-    try {
-      await deleteUser(id);
-      onRefetch();
+  const { mutate: mutateDeleteUser } = useMutation({
+    mutationFn: () => deleteUser(id),
+    onSuccess: () => {
       toast.success("کاربر با موفقیت حذف شد");
-    } catch (error) {
-      toast.error("خطا در حذف");
-      throw error;
-    }
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    onError: () => {
+      toast.error("خطا در حذف کاربر");
+    },
+  });
+
+  const deleteHandler = () => {
+    mutateDeleteUser();
   };
 
   return (

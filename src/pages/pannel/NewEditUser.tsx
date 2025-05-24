@@ -2,12 +2,14 @@ import { Button, Form, Input, Radio, Switch, TimePicker, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import Header from "../../component/common/Header";
 import Dragger from "antd/es/upload/Dragger";
-import postNewUser from "../../services/postNewUser";
+import { postNewUser } from "../../services/user";
 import { useNavigate, useParams } from "react-router-dom";
-import getEditUser from "../../services/getEditUser";
-import putUser from "../../services/putUser";
+import { getEditUser } from "../../services/user";
+import { putUser } from "../../services/user";
 import GuideDrawer from "../../component/common/GuideDrawer";
 import AllowedIP from "../../component/common/AllowedIp";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const props = {
   name: "file",
@@ -39,24 +41,44 @@ const props = {
 };
 
 const NewEditUser: React.FC = () => {
-  const navigate = useNavigate();
-  const [enabled, setEnabled] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
   const [form] = Form.useForm();
+  const queryClient = useQueryClient();
+  const [enabled, setEnabled] = useState(false);
+
+  // get user data
+  const { data: userData } = useQuery({
+    queryKey: ["user", id],
+    queryFn: () => getEditUser(id!),
+    enabled: !!id,
+  });
 
   useEffect(() => {
-    if (id) {
-      const getData = async () => {
-        const data = await getEditUser(id);
-        form.setFieldsValue(data);
-      };
-      getData();
+    if (userData) {
+      form.setFieldsValue(userData);
     }
-  }, [id]);
+  }, [userData]);
 
-  const onFinish = async (values) => {
+  // handle submit
+  const mutation = useMutation({
+    mutationFn: (userData: any) => {
+      return id ? putUser({ ...userData, id }) : postNewUser(userData);
+    },
+    onSuccess: () => {
+      toast.success("اطلاعات با موفقیت ذخیره شد");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      navigate("/pannel/users");
+    },
+    onError: () => {
+      message.error("در ذخیره اطلاعات مشکلی پیش آمد");
+    },
+  });
+
+  const onFinish = (values: any) => {
     let birthDateIso = null;
-    if (values.BirthDate) {
+
+    if (values.birthDate) {
       const parsedDate = new Date(values.birthDate);
       if (!isNaN(parsedDate.getTime())) {
         birthDateIso = parsedDate.toISOString();
@@ -70,16 +92,10 @@ const NewEditUser: React.FC = () => {
       ...values,
       BirthDate: birthDateIso,
     };
-    if (id) {
-      await putUser({ ...user, id });
-    } else {
-      await postNewUser(user);
-    }
-    navigate("/pannel/users");
+
+    mutation.mutate(user);
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+
   const cancelHandler = () => {
     navigate(-1);
   };
@@ -96,7 +112,6 @@ const NewEditUser: React.FC = () => {
           wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           autoComplete="off"
           className="grid grid-cols-4"
         >

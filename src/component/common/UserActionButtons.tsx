@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import deleteUser from "../../services/deleteUser";
 import toast from "react-hot-toast";
+import DeleteButton from "./DeleteButton";
 
 const UserActionButton: React.FC<{ id: string; onRefetch: () => void }> = ({
   id,
@@ -16,7 +17,7 @@ const UserActionButton: React.FC<{ id: string; onRefetch: () => void }> = ({
   const deleteHandler = async () => {
     try {
       await deleteUser(id);
-      await onRefetch();
+      onRefetch();
       toast.success("کاربر با موفقیت حذف شد");
     } catch (error) {
       toast.error("خطا در حذف");
@@ -35,9 +36,7 @@ const UserActionButton: React.FC<{ id: string; onRefetch: () => void }> = ({
       <button>
         <i className="fal fa-shield-alt cursor-pointer"></i>
       </button>
-      <button onClick={deleteHandler}>
-        <i className="fal fa-trash cursor-pointer text-red-600"></i>
-      </button>
+      <DeleteButton onConfirm={deleteHandler} />
     </div>
   );
 };

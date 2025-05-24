@@ -41,7 +41,7 @@ const IndexUsers: React.FC = () => {
   const [pageIndex, setPageIndex] = useState<number>(() =>
     parseInt(searchParams.get("pageIndex") || "1")
   );
-  const { data } = useUsersQuery(pageSize, pageIndex, debouncedSearch);
+  const { data, refetch } = useUsersQuery(pageSize, pageIndex, debouncedSearch);
 
   const searchHandler = () => {
     setDebouncedSearch(search);
@@ -109,7 +109,7 @@ const IndexUsers: React.FC = () => {
           }}
           isSearch={{ search, setSearch, searchHandler }}
           isSelect={{ pageSize, pageSizeHandler }}
-          actions={(row) => <UserActionButton id={row.id} />}
+          actions={(row) => <UserActionButton id={row.id} onRefetch={refetch} />}
           expandFields={expandFields}
         />
       </div>

@@ -1,13 +1,24 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import deleteUser from "../../services/deleteUser";
 
-
-
-const UserActionButton: React.FC = ({ id }) => {
+const UserActionButton: React.FC<{ id: string; onRefetch: () => void }> = ({
+  id,
+  onRefetch,
+}) => {
   const navigate = useNavigate();
 
   const editHandler = () => {
     navigate(`/pannel/editUser/${id}`);
+  };
+
+  const deleteHandler = async () => {
+    try {
+      await deleteUser(id);
+      await onRefetch();
+    } catch (error) {
+      console.error("خطا در حذف:", error);
+    }
   };
 
   return (
@@ -21,7 +32,7 @@ const UserActionButton: React.FC = ({ id }) => {
       <button>
         <i className="fal fa-shield-alt cursor-pointer"></i>
       </button>
-      <button>
+      <button onClick={deleteHandler}>
         <i className="fal fa-trash cursor-pointer text-red-600"></i>
       </button>
     </div>

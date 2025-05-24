@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import Header from "../../component/common/Header";
 import Dragger from "antd/es/upload/Dragger";
 import postNewUser from "../../services/postNewUser";
-import CustomDrawer from "../../component/common/CustomDrawer";
 import { useNavigate, useParams } from "react-router-dom";
 import getEditUser from "../../services/getEditUser";
 import putUser from "../../services/putUser";
+import GuideDrawer from "../../component/common/GuideDrawer";
 
 const props = {
   name: "file",
@@ -357,7 +357,7 @@ const NewEditUser: React.FC = () => {
           </div>
           <div className="my-7">
             <span>سمت ها</span>
-            <CustomDrawer title={"راهنما"} />
+            <GuideDrawer />
           </div>
           <div className="flex items-center gap-3 col-span-4">
             <h2 className="text-xl">تصاویر</h2>
@@ -366,7 +366,24 @@ const NewEditUser: React.FC = () => {
           <Form.Item
             label="تصویر کاربر"
             name="avatarFile"
-            className="col-span-4"
+            className="col-span-2"
+          >
+            <Dragger {...props} className="w-full">
+              <p className="ant-upload-drag-icon">
+                <i className="fal fa-cloud-upload text-4xl"></i>
+              </p>
+              <p className="ant-upload-text">
+                برای بارگذاری، کلیک کنید یا تصویر خود را در اینجا رها کنید
+              </p>
+              <p className="ant-upload-hint text-sm text-gray-500">
+                فقط تصاویر PNG یا JPEG با حداکثر حجم ۳۷۴ کیلوبایت مجاز هستند.
+              </p>
+            </Dragger>
+          </Form.Item>
+          <Form.Item
+            label="تصویر امضا"
+            // name="avatarFile"
+            className="col-span-2"
           >
             <Dragger {...props} className="w-full">
               <p className="ant-upload-drag-icon">

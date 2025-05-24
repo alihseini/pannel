@@ -15,7 +15,7 @@ const TableSection: React.FC = ({
 }) => {
   return (
     <>
-      <div className="flex items-center mb-10 gap-5">
+      <div className="flex items-center mb-10 justify-between">
         {isSearch && (
           <SearchBox
             search={isSearch.search}
